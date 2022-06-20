@@ -20,6 +20,6 @@ class Request(object):
             if p not in components:
                 raise ClientError("File name missing from the request", ClientErrorCode.FILE_NOT_FOUND)
 
-    def get_file_name(self):
+    @property
+    def file_name(self):
         return self._file_name
-

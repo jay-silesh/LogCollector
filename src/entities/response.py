@@ -1,7 +1,11 @@
-from src.constants.request_constants import FILE, COUNT, KEYWORDS
-from src.exceptions.client_error import ClientError
+from typing import List
+
+from src.entities.log import Log
 
 
 class Response(object):
-    def __init__(self):
+    def __init__(self, logs):
+        self._logs: List[Log] = logs
+
+    def get_response(self):
         raise NotImplementedError
