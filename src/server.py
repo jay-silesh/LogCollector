@@ -9,13 +9,6 @@ from src.exceptions.server_error import ServerError
             # 200 OK
             # 204 is no content
             # 206 is partition content
-            
-            # 400 Bad request
-            # 404 file not found
-            # 408 Request timed out
-            
-            # 500 Server error
-            # 501 Not implemented.
 """
 
 
@@ -30,7 +23,9 @@ class handler(BaseHTTPRequestHandler):
             self.send_error(501, "Server Implementation not ready!")
             # self.wfile.write(bytes(message, "utf8"))
         except ClientError as e:
-            self.send_error(400, e.err_msg)
+            self.send_error(e.code, e.err_msg)
+        except NotImplementedError as e:
+            self.send_error(500, "Implementation missing!")
         except ServerError as e:
             self.send_response(500, e.err_msg)
         except Exception as e:

@@ -1,5 +1,5 @@
 from src.constants.request_constants import FILE, COUNT, KEYWORDS
-from src.exceptions.client_error import ClientError
+from src.exceptions.client_error import ClientError, ClientErrorCode
 
 
 class Request(object):
@@ -18,7 +18,7 @@ class Request(object):
         components = self._query_components
         for p in Request.__required_params:
             if p not in components:
-                raise ClientError("File name missing from the request")
+                raise ClientError("File name missing from the request", ClientErrorCode.FILE_NOT_FOUND)
 
     def get_file_name(self):
         return self._file_name
