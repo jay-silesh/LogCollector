@@ -10,6 +10,7 @@ logger = SugaredLogger()
 
 def get_logs(request: Request) -> List[Log]:
     logFileReader = LogFileReaderBaseImpl(request.file_name)
-    logs = logFileReader.read_logs(10)
+    logs = logFileReader.read_logs(request.count)
+    logger.logger.warning("Request Info", request)
     logger.logger.info("Successfully read file %s with %d logs", request.file_name, len(logs))
     raise NotImplementedError()

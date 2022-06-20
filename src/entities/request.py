@@ -11,8 +11,8 @@ class Request(object):
         self._query_components = dict(qc.split("=") for qc in http_request_query.split("&"))
         self.__validate()
         self._file_name = self._query_components.get(FILE)
-        self._count = self._query_components.get(COUNT, Request.__DEFAULT_COUNT_LIMIT)
-        self._keywords = self._query_components.get(KEYWORDS, [])
+        self._count = int(self._query_components.get(COUNT, Request.__DEFAULT_COUNT_LIMIT))
+        self._keywords = self._query_components.get(KEYWORDS, "").split(",")
 
     def __validate(self):
         components = self._query_components
@@ -20,6 +20,20 @@ class Request(object):
             if p not in components:
                 raise ClientError("File name missing from the request", ClientErrorCode.FILE_NOT_FOUND)
 
+    def __str__(self):
+        return "FileName:%s Count:%s Keywords:%s" % (self.file_name, self.count, self.keywords)
+
+    def __repr__(self):
+        return "FileName:%s Count:%s Keywords:%s" % (self.file_name, self.count, self.keywords)
+
     @property
     def file_name(self):
         return self._file_name
+
+    @property
+    def count(self):
+        return self._count
+
+    @property
+    def keywords(self):
+        return self._keywords
