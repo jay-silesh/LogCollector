@@ -1,3 +1,4 @@
 OFFSET = "offset"
 LOGS = "logs"
-STATUS = "status"
+STATUS_MSG = "status_msg"
+STATUS_CODE = "status_code"

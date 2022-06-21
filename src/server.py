@@ -21,7 +21,6 @@ def _handle_request(url) -> Response:
 
 
 def fire_child_node_request(aggr_response, child_server, child_url):
-
     final_url = "http://%s/logs/%s" % (child_server, child_url)
     try:
         status_code, response_dict = send_get_request(final_url)
