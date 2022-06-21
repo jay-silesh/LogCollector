@@ -10,16 +10,17 @@ from src.exceptions.client_error import ClientError, ClientErrorCode
 from src.exceptions.server_error import ServerError
 from src.utils.http_utils import get_http_response_code
 
-
 PORT = 8000
 
 
-def _handle_request(http_request) -> Response:
+def _handle_request(url) -> Response:
+    http_request = Request(url, is_master_node=False)
     return serve_request(http_request)
 
 
-def _handle_master_node_request(http_req: Request) -> Response:
-    print(http_req.servers)
+def _handle_master_node_request(url) -> Response:
+    http_request = Request(url, is_master_node=True)
+    print(http_request.servers)
     raise NotImplementedError
 
 
@@ -28,11 +29,9 @@ class handler(BaseHTTPRequestHandler):
         try:
             url_path = urlparse(self.path).path
             if url_path == "/logs/aggregate/":
-                request = Request(urlparse(self.path).query, is_master_node=True)
-                response: Response = _handle_master_node_request(request)
+                response: Response = _handle_master_node_request(self.path)
             elif url_path == "/logs/":
-                request = Request(urlparse(self.path).query, is_master_node=False)
-                response: Response = _handle_request(request)
+                response: Response = _handle_request(self.path)
             else:
                 raise ClientError("Bad URL path", ClientErrorCode.BAD_REQUEST)
 
