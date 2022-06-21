@@ -6,7 +6,7 @@ from src.entities.request import Request
 from src.entities.response import Response
 from src.exceptions.client_error import ClientError, ClientErrorCode
 from src.implementations.log_file_reader_base_impl import LogFileReaderBaseImpl
-from src.utils.SugaredLogger import SugaredLogger
+from src.utils.sugared_logger import SugaredLogger
 
 logger = SugaredLogger()
 
