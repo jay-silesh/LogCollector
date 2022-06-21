@@ -19,9 +19,11 @@ class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             response: Response = _handle_request(urlparse(self.path).query)
+            print("resp is ", get_http_response_code(response))
             self.send_response(get_http_response_code(response))
             self.send_header('Content-type', 'application/json')
             self.end_headers()
+            print("resp data is ", response.get_response())
             self.wfile.write(bytes(response.get_response(), 'utf-8'))
         except ClientError as e:
             self.send_error(get_http_response_code(e), e.err_msg)
@@ -32,7 +34,6 @@ class handler(BaseHTTPRequestHandler):
             logging.exception('Server error', e)
             self.send_response(get_http_response_code(e), e.err_msg)
         except Exception as e:
-            print(8)
             logging.exception(e, exc_info=True)
             self.send_response(get_http_response_code(e), "Unknown Error!")
 
