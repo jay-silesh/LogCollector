@@ -16,6 +16,14 @@ class Response(object):
     def add_offset(self, offset):
         self._offset = offset
 
+    @property
+    def logs(self) -> List[Log]:
+        return self._logs
+
+    @property
+    def is_offset(self) -> bool:
+        return True if self._offset else False
+
     def get_response(self):
         tmp_dict = {LOGS: self._logs}
         if self._offset is not None:

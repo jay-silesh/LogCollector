@@ -14,13 +14,6 @@ class ClientError(Exception):
         self.err_msg = err_msg
         self._code = code
 
-    # 400 Bad request
-    # 404 file not found
-    # 408 Request timed out
     @property
     def code(self):
-        if self._code == ClientErrorCode.FILE_NOT_FOUND:
-            return 404
-
-        # Send ClientErrorCode.BAD_REQUEST by default
-        return 400
+        return self._code

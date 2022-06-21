@@ -19,7 +19,7 @@ class Request(object):
         components = self._query_components
         for p in Request.__required_params:
             if p not in components:
-                raise ClientError("File name missing from the request", ClientErrorCode.FILE_NOT_FOUND)
+                raise ClientError("File name missing from the request", ClientErrorCode.BAD_REQUEST)
 
     def __str__(self):
         return "FileName:%s Count:%s Keywords:%s" % (self.file_name, self.count, self.keywords)
