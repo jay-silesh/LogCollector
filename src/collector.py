@@ -17,11 +17,10 @@ def serve_request(request: Request) -> Response:
     logger.logger.warning(request)
     if not log_file_reader.is_file_exists():
         raise ClientError("File does not exists", ClientErrorCode.FILE_NOT_FOUND)
-
     logger.logger.info("Successfully read file %s", request.file_name)
 
     # TODO add condition for privileges!
-    logs = log_file_reader.read_logs(request.count)
+    logs = log_file_reader.read_logs(request.count, request.offset)
     print(len(logs))
     if len(logs) > MAX_LOGS_COUNT_LIMIT:
         total_logs = log_file_reader.get_total_size()

@@ -1,5 +1,5 @@
 from src.constants.common_constants import DEFAULT_LOG_COUNT_LIMIT
-from src.constants.request_constants import FILE, COUNT, KEYWORDS
+from src.constants.request_constants import FILE, COUNT, KEYWORDS, OFFSET
 from src.exceptions.client_error import ClientError, ClientErrorCode
 
 
@@ -13,6 +13,7 @@ class Request(object):
         self._file_name = self._query_components.get(FILE)
         self._count = int(self._query_components.get(COUNT, DEFAULT_LOG_COUNT_LIMIT))
         self._keywords = self._query_components.get(KEYWORDS, "").split(",")
+        self._offset = int(self._query_components.get(OFFSET, 0))  # Default offset == 0 (Starting EOF)
 
     def __validate(self):
         components = self._query_components
@@ -37,3 +38,7 @@ class Request(object):
     @property
     def keywords(self):
         return self._keywords
+
+    @property
+    def offset(self):
+        return self._offset

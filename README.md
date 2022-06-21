@@ -31,3 +31,8 @@ Happy path with only count
 ```bash
 curl http://localhost:8000/\?file\=daily.out\&count\=10
 ```
+
+Happy path with = FileName + Count + Offset + Keywords
+```commandline
+curl http://localhost:8000/?file=daily.out&count=60&keywords=blah,blah2,blah3&offset=5000
+```
