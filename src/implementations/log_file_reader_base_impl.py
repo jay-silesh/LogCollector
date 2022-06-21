@@ -28,8 +28,7 @@ class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
                     my_list.append(line)
                     continue
 
-                # If contains any of the filter
-                if any(xs in line for xs in keywords):
+                if any(xs.lower() in line.lower() for xs in keywords):
                     my_list.append(line)
             return my_list
 
