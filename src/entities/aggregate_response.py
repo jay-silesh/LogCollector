@@ -1,8 +1,8 @@
 import json
 from http.client import responses
 
-from src.constants.response_constants import STATUS_MSG, STATUS_CODE
-from src.entities.response import Response
+from constants.response_constants import STATUS_MSG, STATUS_CODE
+from entities.response import Response
 
 
 class AggregateResponse(object):
@@ -15,6 +15,7 @@ class AggregateResponse(object):
             response_dict = response.build_dict()
         else:
             response_dict[STATUS_MSG] = responses[status_code].rstrip().lstrip()
+            response_dict[STATUS_CODE] = status_code
             response_dict[STATUS_CODE] = status_code
         self._responses[server] = response_dict
 

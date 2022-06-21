@@ -1,11 +1,10 @@
 from abc import ABC
-from typing import List
 from pathlib import Path
+from typing import List
 
-from src.entities.log import Log
-from src.entities.log_file import LogFile
-from src.exceptions.client_error import ClientError, ClientErrorCode
-from src.interfaces.log_file_reader_base import LogFileReaderBase
+from entities.log import Log
+from exceptions.client_error import ClientError, ClientErrorCode
+from interfaces.log_file_reader_base import LogFileReaderBase
 
 
 class LogFileReaderBaseImpl(LogFileReaderBase, ABC):

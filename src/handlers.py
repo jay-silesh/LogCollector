@@ -1,13 +1,13 @@
 import threading
 
-from src.constants.common_constants import MAX_LOGS_COUNT_LIMIT
-from src.entities.aggregate_response import AggregateResponse
-from src.entities.request import Request
-from src.entities.response import Response
-from src.exceptions.client_error import ClientError, ClientErrorCode
-from src.implementations.log_file_reader_base_impl import LogFileReaderBaseImpl
-from src.utils.http_utils import get_http_response_code, send_get_request
-from src.utils.sugared_logger import SugaredLogger
+from constants.common_constants import MAX_LOGS_COUNT_LIMIT
+from entities.aggregate_response import AggregateResponse
+from entities.request import Request
+from entities.response import Response
+from exceptions.client_error import ClientError, ClientErrorCode
+from implementations.log_file_reader_base_impl import LogFileReaderBaseImpl
+from utils.http_utils import get_http_response_code, send_get_request
+from utils.sugared_logger import SugaredLogger
 
 logger = SugaredLogger()
 

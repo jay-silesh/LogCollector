@@ -2,8 +2,8 @@ import json
 
 import requests
 
-from src.entities.response import Response
-from src.exceptions.client_error import ClientError, ClientErrorCode
+from entities.response import Response
+from exceptions.client_error import ClientError, ClientErrorCode
 
 
 def send_get_request(api_url) -> (int, dict):

@@ -1,10 +1,9 @@
 from typing import List
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
-from src.constants.common_constants import DEFAULT_LOG_COUNT_LIMIT, URL_LOGS_AGGREGATE
-from src.constants.request_constants import FILE, COUNT, KEYWORDS, OFFSET, SERVERS
-from src.entities.server import Server
-from src.exceptions.client_error import ClientError, ClientErrorCode
+from constants.common_constants import DEFAULT_LOG_COUNT_LIMIT, URL_LOGS_AGGREGATE
+from constants.request_constants import FILE, COUNT, KEYWORDS, OFFSET, SERVERS
+from exceptions.client_error import ClientError, ClientErrorCode
 
 
 class Request(object):

@@ -2,7 +2,7 @@ from abc import abstractmethod
 # TODO: Add documentation of what each of the interface should be implementing!
 from typing import List
 
-from src.entities.log import Log
+from entities.log import Log
 
 
 class LogFileReaderBase(object):

@@ -2,8 +2,8 @@ import json
 from http.client import responses
 from typing import List
 
-from src.constants.response_constants import LOGS, OFFSET, STATUS_MSG, STATUS_CODE
-from src.entities.log import Log
+from constants.response_constants import LOGS, OFFSET, STATUS_MSG, STATUS_CODE
+from entities.log import Log
 
 
 class Response(object):
@@ -36,9 +36,7 @@ class Response(object):
         return r
 
     def build_dict(self):
-        tmp_dict = {}
-        if self._logs:
-            tmp_dict[LOGS] = self._logs
+        tmp_dict = {LOGS: self._logs}
         if self._offset is not None:
             tmp_dict[OFFSET] = self._offset
         if self._status_code is not None:

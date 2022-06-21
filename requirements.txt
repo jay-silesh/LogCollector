@@ -1,11 +1,12 @@
-numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1651020584890/work
-PySocks @ file:///Users/runner/miniforge3/conda-bld/pysocks_1648857374584/work
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
-pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1647961439546/work
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1641580202195/work
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1647489083693/work
+# numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1651020584890/work
+# PySocks @ file:///Users/runner/miniforge3/conda-bld/pysocks_1648857374584/work
+# python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
+# pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1647961439546/work
+# # requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1641580202195/work
+# urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1647489083693/work
 
 ddt==1.5.0
 pip==22.1.2
 wheel==0.37.1
 setuptools==62.6.0
+requests~=2.27.1
