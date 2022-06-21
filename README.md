@@ -1,6 +1,6 @@
 LogCollector
 
-### Sample Curl Commands
+## Sample Curl Commands for Part1
 
 Happy path with all default params
 ```bash
@@ -35,4 +35,11 @@ curl http://localhost:8000/logs/\?file\=daily.out\&count\=10
 Happy path with = FileName + Count + Offset + Keywords
 ```commandline
 curl http://localhost:8000/logs/\?file=daily.out&count=60&keywords=blah,blah2,blah3&offset=5000
+```
+
+## Sample Curl Commands for Part2
+
+Issue request to master node
+```commandline
+curl http://localhost:8000/logs/aggregate/?file=daily.out&count=60&offset=6887&servers=localhost:8001,localhost:8002
 ```
