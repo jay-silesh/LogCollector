@@ -51,7 +51,7 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hp:", ["port="])
     except getopt.GetoptError:
-        print('server.py -p <port> -o <outputfile>')
+        print('server.py -p <port>')
         sys.exit(2)
 
     for opt, arg in opts:
