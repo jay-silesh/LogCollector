@@ -15,10 +15,23 @@ class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
         super().__init__(file_name)
 
     def read_logs(self, n: int) -> List[Log]:
+        my_list = []
+        count = n
+        print(count)
         with open(self.file_path) as file:
-            # loop to read iterate
-            # last n lines and print it
-            return [line for line in (file.readlines()[-n:])]
+            lines = file.readlines()[::-1]
+            while count > 0 and lines:
+                line = lines.pop(0).rstrip()
+                if not line:
+                    continue
+                my_list.append(line)
+                count -= 1
+            return my_list
+            # return [line for line in (file.readlines()[-n:])]
+
+    def get_total_size(self) -> int:
+        with open(self.file_path) as fp:
+            return len(fp.readlines())
 
     def is_file_exists(self) -> bool:
         path = Path(self.file_path)

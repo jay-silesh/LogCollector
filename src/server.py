@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 from typing import List
 import logging
-from src.collector import get_logs
+from src.collector import serve_request
 from src.entities.log import Log
 from src.entities.request import Request
 from src.entities.response import Response
@@ -17,21 +17,19 @@ from src.exceptions.server_error import ServerError
 """
 
 
-def _handle_request(query):
+def _handle_request(query) -> Response:
     http_request: Request = Request(query)
-    logs: List[Log] = get_logs(http_request)
-    response: Response = Response(logs)
+    return serve_request(http_request)
 
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
-            _handle_request(urlparse(self.path).query)
-            # self.send_header('Content-type', 'text/html')
-            # self.end_headers()
-
-            self.send_error(501, "Server Implementation not ready!")
-            # self.wfile.write(bytes(message, "utf8"))
+            response: Response = _handle_request(urlparse(self.path).query)
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(bytes(response.get_response(), 'utf-8'))
         except ClientError as e:
             self.send_error(e.code, e.err_msg)
         except NotImplementedError as e:
@@ -41,6 +39,7 @@ class handler(BaseHTTPRequestHandler):
             logging.exception('Server error', e)
             self.send_response(500, e.err_msg)
         except Exception as e:
+            print(8)
             logging.exception(e, exc_info=True)
             self.send_response(500, "Unknown Error!")
 

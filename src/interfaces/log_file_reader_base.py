@@ -37,7 +37,11 @@ class LogFileReaderBase(object):
         raise NotImplementedError
 
     @abstractmethod
-    def _is_file_exists(self) -> bool:
+    def is_file_exists(self) -> bool:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_total_size(self) -> int:
         raise NotImplementedError
 
     @abstractmethod

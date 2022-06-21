@@ -1,0 +1,2 @@
+OFFSET = "offset"
+LOGS = "logs"
