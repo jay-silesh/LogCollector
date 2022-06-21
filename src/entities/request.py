@@ -12,7 +12,7 @@ class Request(object):
         self.__validate()
         self._file_name = self._query_components.get(FILE)
         self._count = int(self._query_components.get(COUNT, DEFAULT_LOG_COUNT_LIMIT))
-        self._keywords = self._query_components.get(KEYWORDS, "").split(",")
+        self._keywords = set(self._query_components.get(KEYWORDS, "").split(","))
         self._offset = int(self._query_components.get(OFFSET, 0))  # Default offset == 0 (Starting EOF)
 
     def __validate(self):
@@ -36,7 +36,7 @@ class Request(object):
         return self._count
 
     @property
-    def keywords(self):
+    def keywords(self) -> set:
         return self._keywords
 
     @property

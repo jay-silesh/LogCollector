@@ -14,7 +14,7 @@ class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
     def __init__(self, file_name: str):
         super().__init__(file_name)
 
-    def read_logs(self, n: int, offset: int = 0) -> List[Log]:
+    def read_logs(self, n: int, offset: int = 0, keywords: set = None) -> List[Log]:
         with open(self.file_path) as file:
             my_list = []
             lines = file.readlines()[::-1][offset:]
@@ -23,8 +23,14 @@ class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
                 line = lines.pop(0).rstrip()
                 if not line:
                     continue
-                my_list.append(line)
                 n -= 1
+                if not keywords:
+                    my_list.append(line)
+                    continue
+
+                # If contains any of the filter
+                if any(xs in line for xs in keywords):
+                    my_list.append(line)
             return my_list
 
     def get_total_size(self) -> int:

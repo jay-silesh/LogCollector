@@ -33,7 +33,7 @@ class LogFileReaderBase(object):
         raise NotImplementedError
 
     @abstractmethod
-    def read_logs(self, n: int, offset: int = 0) -> List[Log]:
+    def read_logs(self, n: int, offset: int = 0, keywords: set = None) -> List[Log]:
         raise NotImplementedError
 
     @abstractmethod
