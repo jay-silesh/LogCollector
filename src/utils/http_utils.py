@@ -1,5 +1,15 @@
+import json
+
+import requests
+
 from src.entities.response import Response
 from src.exceptions.client_error import ClientError, ClientErrorCode
+
+
+def get_requests(api_url):
+    response = requests.get(api_url)
+    json_response = json.loads(response.text)
+    return json_response
 
 
 def get_http_response_code(resp) -> int:

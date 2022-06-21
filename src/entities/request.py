@@ -1,7 +1,7 @@
 from typing import List
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
-from src.constants.common_constants import DEFAULT_LOG_COUNT_LIMIT
+from src.constants.common_constants import DEFAULT_LOG_COUNT_LIMIT, URL_LOGS_AGGREGATE
 from src.constants.request_constants import FILE, COUNT, KEYWORDS, OFFSET, SERVERS
 from src.entities.server import Server
 from src.exceptions.client_error import ClientError, ClientErrorCode
@@ -17,7 +17,7 @@ class Request(object):
         self._query_components = dict(qc.split("=") for qc in http_request_query.split("&"))
         self.__validate(is_master_node)
         self._file_name = self._query_components.get(FILE)
-        self._servers: List[Server] = []
+        self._servers = []
         self._child_url = None
         self._count = int(self._query_components.get(COUNT, DEFAULT_LOG_COUNT_LIMIT))
         self._keywords = set(self._query_components.get(KEYWORDS, "").split(","))
@@ -29,9 +29,11 @@ class Request(object):
         u = urlparse(url)
         query = parse_qs(u.query, keep_blank_values=True)
         servers = query.pop(SERVERS, None)
-        self._servers: List[Server] = [Server(addr) for addr in servers]
+        if len(servers) > 0:
+            self._servers = servers[0].split(",")
         u = u._replace(query=urlencode(query, True))
         self._child_url = urlunparse(u)
+        self._child_url = self._child_url.replace(URL_LOGS_AGGREGATE, "")
 
     def __validate(self, is_master_node):
         components = self._query_components
@@ -64,5 +66,9 @@ class Request(object):
         return self._offset
 
     @property
-    def servers(self) -> List[Server]:
+    def servers(self) -> List:
         return self._servers
+
+    @property
+    def child_url(self):
+        return self._child_url
