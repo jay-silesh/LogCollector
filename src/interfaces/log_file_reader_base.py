@@ -3,6 +3,7 @@ from abc import abstractmethod
 from typing import List
 
 from entities.log import Log
+from entities.offset import Offset
 
 
 class LogFileReaderBase(object):
@@ -28,7 +29,7 @@ class LogFileReaderBase(object):
         raise NotImplementedError
 
     @abstractmethod
-    def read_logs(self, n: int, offset: int = 0, keywords: set = None) -> List[Log]:
+    def read_logs(self, n: int, offset: Offset = 0, keywords: set = None) -> (List[Log], Offset):
         raise NotImplementedError
 
     @abstractmethod

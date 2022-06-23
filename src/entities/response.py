@@ -15,6 +15,9 @@ class Response(object):
     def add_logs(self, logs):
         self._logs: List[Log] = logs
 
+    def get_logs_count(self) -> int:
+        return len(self._logs)
+
     def add_status_code(self, code: int):
         self._status_code = code
 

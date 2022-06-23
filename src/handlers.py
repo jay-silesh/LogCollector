@@ -21,13 +21,10 @@ def __serve_request(request: Request) -> Response:
     logger.logger.info("Successfully read file %s", request.file_name)
 
     # TODO add condition for privileges!
-    logs = log_file_reader.read_logs(request.count, request.offset, request.keywords)
-    print(len(logs))
-    if len(logs) > MAX_LOGS_COUNT_LIMIT:
-        total_logs = log_file_reader.get_total_size()
-        offset = total_logs - request.count + MAX_LOGS_COUNT_LIMIT
-        response.add_offset(offset)
+    logs, logs_offset = log_file_reader.read_logs(request.count, request.offset, request.keywords)
     response.add_logs(logs[:MAX_LOGS_COUNT_LIMIT])
+    if len(logs) > MAX_LOGS_COUNT_LIMIT:
+        response.add_offset(request.offset + response.get_logs_count())
     return response
 
 

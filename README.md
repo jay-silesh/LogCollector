@@ -13,7 +13,7 @@ LogCollector
 ### Local Server
 Request:
 ```
-http://localhost:8000/logs/?file=daily.out&count=60&keywords=Link,utun&offset=5000   
+http://localhost:8000/logs/?file=daily.out&count=1000&keywords=Link,utun&offset=50   
 ```
 file (required): 
     - name of the log file (defaults to a prefix with /var/log/ in the local unix system)
@@ -31,14 +31,23 @@ Response:
 ```
 {
     logs: [
-        log1,
-        log2
+        log_x50,
+        log_x49,
+        ...
+        log_2,
+        log_1,
+        
     ],
-    offset: 123
+    offset: 100
 } 
 ```
 logs: List of logs
-offset (optional): If the logs are paginated, this field will be included in the response. 
+offset (optional): If the logs are paginated, this field will be included in the response indicating the next offset value to be passed in the request. 
+
+NOTE: 
+ - 50 logs is the maxCount
+ - Request.offset = 50, meaning the offset of the logs start from 50
+ - Offset: Next offset to be request. 
 
 ### Master Server
 Request:

@@ -1,8 +1,12 @@
+import collections
 from abc import ABC
 from pathlib import Path
 from typing import List
 
+from file_read_backwards import FileReadBackwards
+
 from entities.log import Log
+from entities.offset import Offset
 from exceptions.client_error import ClientError, ClientErrorCode
 from interfaces.log_file_reader_base import LogFileReaderBase
 
@@ -13,23 +17,18 @@ class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
     def __init__(self, file_name: str):
         super().__init__(file_name)
 
-    def read_logs(self, n: int, offset: int = 0, keywords: set = None) -> List[Log]:
-        with open(self.file_path) as file:
-            my_list = []
-            lines = file.readlines()[::-1][offset:]
-            # lines = lines[::-1]
-            while n > 0 and lines:
-                line = lines.pop(0).rstrip()
-                if not line:
+    def read_logs(self, n: int, offset: Offset = 0, keywords: set = None) -> (List[Log], Offset):
+        queue = collections.deque([], n)
+        next_offset = 0
+        with FileReadBackwards(self.file_path, encoding="utf-8") as frb:
+            for count, l in enumerate(frb):
+                if count < offset:
                     continue
-                n -= 1
-                if not keywords:
-                    my_list.append(line)
-                    continue
-
-                if any(xs.lower() in line.lower() for xs in keywords):
-                    my_list.append(line)
-            return my_list
+                queue.append(l)
+                if len(queue) >= n:
+                    next_offset = count + 1
+                    break
+        return list(queue), next_offset
 
     def get_total_size(self) -> int:
         with open(self.file_path) as fp:
