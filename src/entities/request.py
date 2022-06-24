@@ -1,7 +1,7 @@
 from typing import List
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
-from constants.common_constants import DEFAULT_LOG_COUNT_LIMIT, URL_LOGS_AGGREGATE
+from constants.common_constants import DEFAULT_LOG_COUNT_LIMIT, URL_LOGS_AGGREGATE, UNIX_LOG_FILES_DIR_PATH_PREFIX
 from constants.request_constants import FILE, COUNT, KEYWORDS, OFFSET, SERVERS
 from exceptions.client_error import ClientError, ClientErrorCode
 
@@ -15,7 +15,7 @@ class Request(object):
         http_request_query = urlparse(req_url).query
         self._query_components = dict(qc.split("=") for qc in http_request_query.split("&"))
         self.__validate(is_master_node)
-        self._file_name = self._query_components.get(FILE)
+        self._file_name = self.__normalize_file_name(self._query_components.get(FILE))
         self._servers = []
         self._child_url = None
         self._count = int(self._query_components.get(COUNT, DEFAULT_LOG_COUNT_LIMIT))
@@ -23,6 +23,11 @@ class Request(object):
         self._offset = int(self._query_components.get(OFFSET, 0))  # Default offset == 0 (Starting EOF)
         if is_master_node:
             self.__parse_child_nodes(req_url)
+
+    def __normalize_file_name(self, file_name: str):
+        if file_name.startswith(UNIX_LOG_FILES_DIR_PATH_PREFIX):
+            return file_name.replace(UNIX_LOG_FILES_DIR_PATH_PREFIX, "")
+        return file_name
 
     def __parse_child_nodes(self, url):
         u = urlparse(url)

@@ -1,10 +1,10 @@
 import collections
 import os
-import tempfile
 from abc import ABC
 from pathlib import Path
 from typing import List
 
+from constants.common_constants import UNIX_LOG_FILES_DIR_PATH_PREFIX
 from entities.log import Log
 from entities.offset import Offset
 from exceptions.client_error import ClientError, ClientErrorCode
@@ -12,8 +12,6 @@ from interfaces.log_file_reader_base import LogFileReaderBase
 
 
 class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
-    __UNIX_LOG_FILES_DIR_PATH_PREFIX = "/var/log/"
-
     def __init__(self, file_name: str):
         super().__init__(file_name)
 
@@ -64,4 +62,4 @@ class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
             raise ClientError("Empty FileName", ClientErrorCode.BAD_REQUEST)
         while file_name[0] == "/":
             file_name = file_name[1:]
-        return LogFileReaderBaseImpl.__UNIX_LOG_FILES_DIR_PATH_PREFIX + file_name
+        return UNIX_LOG_FILES_DIR_PATH_PREFIX + file_name
