@@ -10,4 +10,3 @@ pip==22.1.2
 wheel==0.37.1
 setuptools==62.6.0
 requests~=2.27.1
-file_read_backwards

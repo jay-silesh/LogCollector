@@ -1,9 +1,9 @@
 import collections
+import os
+import tempfile
 from abc import ABC
 from pathlib import Path
 from typing import List
-
-from file_read_backwards import FileReadBackwards
 
 from entities.log import Log
 from entities.offset import Offset
@@ -18,16 +18,31 @@ class LogFileReaderBaseImpl(LogFileReaderBase, ABC):
         super().__init__(file_name)
 
     def read_logs(self, n: int, offset: Offset = 0, keywords: set = None) -> (List[Log], Offset):
+        def yield_lines(fname):
+            with open(fname) as qfile:
+                qfile.seek(0, os.SEEK_END)
+                position = qfile.tell()
+                line = ''
+                while position >= 0:
+                    qfile.seek(position)
+                    next_char = qfile.read(1)
+                    if next_char == "\n":
+                        yield line[::-1]
+                        line = ''
+                    else:
+                        line += next_char
+                    position -= 1
+                yield line[::-1]
+
         queue = collections.deque([], n)
         next_offset = 0
-        with FileReadBackwards(self.file_path, encoding="utf-8") as frb:
-            for count, l in enumerate(frb):
-                if count < offset:
-                    continue
-                queue.append(l)
-                if len(queue) >= n:
-                    next_offset = count + 1
-                    break
+        for count, l in enumerate(yield_lines(self.file_path)):
+            if count < offset:
+                continue
+            queue.append(l)
+            if len(queue) >= n:
+                next_offset = count + 1
+                break
         return list(queue), next_offset
 
     def get_total_size(self) -> int:
